@@ -1,6 +1,5 @@
 export interface Model {
-  
-  getTypeName() : string;
+
+  getTypeName: () => string
 
 }
-
