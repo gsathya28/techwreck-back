@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "1e89cfb7-d3dc-480b-b09d-61900f3f74ab",
+		"name": "TechWreck",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "Request 1 (POST /v1/posts)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body Check\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Get jsonData\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Check for ID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"// All tests passed! Set your variable\r",
+									"pm.collectionVariables.set(\"post_id\", jsonData.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"title\": \"{{title}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request 2 (GET /v1/posts/{post_id})",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body Check\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Get jsonData\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Expected author name\r",
+									"var author = pm.collectionVariables.get(\"author\");\r",
+									"pm.test(\"Check for Author\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"author\");\r",
+									"    pm.expect(jsonData.author).to.be.a('string');\r",
+									"    pm.expect(jsonData.author).to.equal(author);\r",
+									"});\r",
+									"\r",
+									"// Expected Title name\r",
+									"var title = pm.collectionVariables.get(\"title\");\r",
+									"pm.test(\"Check for Title\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"title\");\r",
+									"    pm.expect(jsonData.title).to.be.a('string');\r",
+									"    pm.expect(jsonData.title).to.equal(title);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts/{{post_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request 3 (PUT /v1/posts/{post_id})",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"author\", \"Ringo\");\r",
+									"pm.collectionVariables.set(\"title\", \"Ticket to Ride\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"author\": \"{{author}}\",\r\n    \"title\": \"{{title}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts/{{post_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request 4 (GET /v1/posts/{post_id} after PUT)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body Check\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Get jsonData\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Expected author name\r",
+									"var author = pm.collectionVariables.get(\"author\");\r",
+									"pm.test(\"Check for Author\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"author\");\r",
+									"    pm.expect(jsonData.author).to.be.a('string');\r",
+									"    pm.expect(jsonData.author).to.equal(author);\r",
+									"});\r",
+									"\r",
+									"// Expected Title name\r",
+									"var title = pm.collectionVariables.get(\"title\");\r",
+									"pm.test(\"Check for Title\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"title\");\r",
+									"    pm.expect(jsonData.title).to.be.a('string');\r",
+									"    pm.expect(jsonData.title).to.equal(title);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts/{{post_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request 5 (DELETE /v1/posts/{post_id})",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts/{{post_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request 6 (GET /v1/posts/{post_id} after DELETE)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status Code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body Check\", function () {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"// Get jsonData\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Expect error message\r",
+									"pm.test(\"Check for Message\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"message\");\r",
+									"    pm.expect(jsonData.message).to.be.a('string');\r",
+									"    pm.expect(jsonData.message).to.equal('Not Found');\r",
+									"});\r",
+									"\r",
+									"// Expect to return back id that wasn't found.\r",
+									"var my_id = pm.collectionVariables.get(\"post_id\");\r",
+									"pm.test(\"Check for ID\", function () {\r",
+									"    pm.expect(jsonData).to.have.property(\"id\");\r",
+									"    pm.expect(jsonData.id).to.be.a('string');\r",
+									"    pm.expect(jsonData.id).to.equal(my_id);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/techwreck-9cac5/us-central1/api/v1/posts/{{post_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"techwreck-9cac5",
+								"us-central1",
+								"api",
+								"v1",
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "author",
+			"value": "Sathya"
+		},
+		{
+			"key": "title",
+			"value": "Running Postman Scripts"
+		},
+		{
+			"key": "post_id",
+			"value": ""
+		}
+	]
+}
